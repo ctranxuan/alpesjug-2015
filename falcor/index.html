@@ -1,0 +1,35 @@
+<html>
+<head>
+  <script src="node_modules/falcor/dist/falcor.browser.js"></script>
+  <script>
+    var model = {
+      genreList: [
+          {
+            name: "Recently Watched",
+            titles: [
+              {
+                id: 2343,
+                name: "Daredevil",
+                rating: 4
+              }
+            ]
+          },
+          {
+            name: "New Releases",
+            titles: [
+              {
+                id: 5212,
+                name: "Jessica Jones",
+                rating: 4.5
+              }
+            ]
+          }
+        ]
+      };
+
+    console.log(model.genreList[0].titles[0].name);
+  </script>
+</head>
+<body>
+</body>
+</html>

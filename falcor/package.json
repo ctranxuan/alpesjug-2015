@@ -1,0 +1,33 @@
+{
+  "name": "alpesjug",
+  "version": "1.0.0",
+  "description": "AlpesJUG sample for an app using falcor.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ctranxuan/alpesjug-2015"
+  },
+  "keywords": [
+    "falcor.js",
+    "falcor"
+  ],
+  "author": "ctranxuan (streamdata.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ctranxuan/alpesjug-2015/issues"
+  },
+  "homepage": "https://github.com/ctranxuan/alpesjug-2015",
+  "dependencies": {
+    "express": "4.13.3",
+    "falcor": "0.1.14",
+    "falcor-express": "0.1.2",
+    "falcor-router": "0.2.12"
+  },
+  "devDependencies": {
+    "nodemon": "1.5.0"
+  }
+}
