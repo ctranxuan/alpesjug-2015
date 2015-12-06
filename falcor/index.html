@@ -10,7 +10,10 @@
     var $atom = falcor.Model.atom;
     var $error = falcor.Model.error;
 
-    var model = new falcor.Model({source: new falcor.HttpDataSource('/model.json') });
+    var model =
+      new falcor.Model({source: new falcor.HttpDataSource('/model.json') })
+        .batch()
+        ;
 
     // var model = new falcor.Model({
     //   cache: {
@@ -115,15 +118,16 @@
   //       console.log(value);
   //     });
 
-    model
-      .getValue('genreList[0].titles[1].name')
-      .then(function(name) {
-          return model
-                  .getValue("genreList[0].titles[1].rating")
-                  .then(function(rating) {
-                      console.log(name, " ", rating);
+  model
+    .getValue('genreList[0].titles[1].name')
+    .then(function(name) {
+        console.log(name);
+    });
 
-                  });
+    model
+      .getValue("genreList[0].titles[1].rating")
+      .then(function(rating) {
+          console.log(rating);
       });
   </script>
 </head>
