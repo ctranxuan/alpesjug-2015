@@ -2,32 +2,31 @@
 <head>
   <script src="node_modules/falcor/dist/falcor.browser.js"></script>
   <script>
+    var $ref = falcor.Model.ref;
     var model = new falcor.Model({
       cache: {
+        titlesById: {
+          5212: {
+            name: "Jessica Jones",
+            rating: 4.5
+          },
+          2343: {
+            name: "Daredevil",
+            rating: 4
+          }
+        },
         genreList: [
           {
             name: "Recently Watched",
             titles: [
-              {
-                id: 5212,
-                name: "Jessica Jones",
-                rating: 4.5
-              },
-              {
-                id: 2343,
-                name: "Daredevil",
-                rating: 4
-              }
+              $ref("titlesById[5212]"),
+              $ref("titlesById[2343]")
             ]
           },
           {
             name: "New Releases",
             titles: [
-              {
-                id: 5212,
-                name: "Jessica Jones",
-                rating: 4.5
-              }
+              $ref("titlesById[5212]")
             ]
           }
         ]
