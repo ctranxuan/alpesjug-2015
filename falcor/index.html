@@ -29,11 +29,31 @@
       }
     });
 
+    // model
+    //   .getValue('genreList[0].titles[0].name')
+    //   .then(function(value) {
+    //     console.log(value);
+    //   });
+    //
+    // model
+    //   .get('genreList[0..1].titles[0].name')
+    //   .then(function(json) {
+    //     console.log(JSON.stringify(json, null, 4));
+    //   });
+    //
+    // model
+    //   .get('genreList[0..1].titles[0].name',
+    //        'genreList[0..1].titles[0].rating')
+    //   .then(function(json) {
+    //     console.log(JSON.stringify(json, null, 4));
+    //   });
+
     model
-      .getValue('genreList[0].titles[0].name')
-      .then(function(value) {
-        console.log(value);
+      .get('genreList[0..1].titles[0]["name", "rating"]')
+      .then(function(json) {
+        console.log(JSON.stringify(json, null, 4));
       });
+
   </script>
 </head>
 <body>
