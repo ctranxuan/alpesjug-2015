@@ -61,7 +61,8 @@
     model
       .setValue('genreList[0].titles[0].rating', 5)
       .then(function(value) {
-          model.get('genreList[0..1].titles[0].["name", "rating"]')
+          // model.get('genreList[0..1].titles[0].["name", "rating"]')
+          model.get(['genreList', { from: 0, to: 1 }, 'titles', 0, ["name", "rating"]])
              .then(function(json) {
                 console.log(JSON.stringify(json, null, 4));
              });
