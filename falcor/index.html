@@ -103,18 +103,28 @@
   //     console.log(response);
   //   });
 
-  model
-    .get('genreList[0].titles[1].["name", "rating"]')
-    .then(function(value) {
-      console.log(JSON.stringify(value, null, 4));
-    });
+  // model
+  //   .get('genreList[0].titles[1].["name", "rating"]')
+  //   .then(function(value) {
+  //     console.log(JSON.stringify(value, null, 4));
+  //   });
+  //
+  //   model
+  //     .getValue('genreList[0].titles[0].name')
+  //     .then(function(value) {
+  //       console.log(value);
+  //     });
 
     model
-      .getValue('genreList[0].titles[0].name')
-      .then(function(value) {
-        console.log(value);
-      });
+      .getValue('genreList[0].titles[1].name')
+      .then(function(name) {
+          return model
+                  .getValue("genreList[0].titles[1].rating")
+                  .then(function(rating) {
+                      console.log(name, " ", rating);
 
+                  });
+      });
   </script>
 </head>
 <body>
