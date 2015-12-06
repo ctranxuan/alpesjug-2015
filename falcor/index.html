@@ -9,40 +9,43 @@
     var $ref = falcor.Model.ref;
     var $atom = falcor.Model.atom;
     var $error = falcor.Model.error;
-    var model = new falcor.Model({
-      cache: {
-        titlesById: {
-          5212: {
-            name: "Jessica Jones",
-            rating: { $type: "atom", value: 5, $expires: -2000 },
-            watched: true,
-            bookmark: $error("Server is done"),
-            subtitles: $atom["en", "fr"]
-          },
-          2343: {
-            name: "Daredevil",
-            rating: 4,
-            watched: true,
-            bookmark: null
-          }
-        },
-        genreList: [
-          {
-            name: "Recently Watched",
-            titles: [
-              $ref("titlesById[5212]"),
-              $ref("titlesById[2343]")
-            ]
-          },
-          {
-            name: "New Releases",
-            titles: [
-              $ref("titlesById[5212]")
-            ]
-          }
-        ]
-      }
-    });
+
+    var model = new falcor.Model({source: new falcor.HttpDataSource('/model.json') });
+
+    // var model = new falcor.Model({
+    //   cache: {
+    //     titlesById: {
+    //       5212: {
+    //         name: "Jessica Jones",
+    //         rating: { $type: "atom", value: 5, $expires: -2000 },
+    //         watched: true,
+    //         bookmark: $error("Server is done"),
+    //         subtitles: $atom["en", "fr"]
+    //       },
+    //       2343: {
+    //         name: "Daredevil",
+    //         rating: 4,
+    //         watched: true,
+    //         bookmark: null
+    //       }
+    //     },
+    //     genreList: [
+    //       {
+    //         name: "Recently Watched",
+    //         titles: [
+    //           $ref("titlesById[5212]"),
+    //           $ref("titlesById[2343]")
+    //         ]
+    //       },
+    //       {
+    //         name: "New Releases",
+    //         titles: [
+    //           $ref("titlesById[5212]")
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // });
 
     // model
     //   .getValue('genreList[0].titles[0].name')
@@ -79,19 +82,39 @@
     //          });
     //   });
 
+  //   model
+  //     .getValue('genreList[0].titles[0].rating')
+  //     .then(function(value) {
+  //       console.log(value);
+  //     });
+  //
+  // setTimeout(function() {
+  //     model
+  //     .getValue('genreList[0].titles[0].rating')
+  //     .then(function(value) {
+  //       console.log(value);
+  //     });
+  // }, 2500);
+
+  // model.
+  //   get("greeting").
+  //   then(function(response) {
+  //     // document.write(response.json.greeting);
+  //     console.log(response);
+  //   });
+
+  model
+    .get('genreList[0].titles[1].["name", "rating"]')
+    .then(function(value) {
+      console.log(JSON.stringify(value, null, 4));
+    });
+
     model
-      .getValue('genreList[0].titles[0].rating')
+      .getValue('genreList[0].titles[0].name')
       .then(function(value) {
         console.log(value);
       });
 
-  setTimeout(function() {
-      model
-      .getValue('genreList[0].titles[0].rating')
-      .then(function(value) {
-        console.log(value);
-      });
-  }, 2500);
   </script>
 </head>
 <body>
