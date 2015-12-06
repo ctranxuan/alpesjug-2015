@@ -9,6 +9,11 @@
             name: "Recently Watched",
             titles: [
               {
+                id: 5212,
+                name: "Jessica Jones",
+                rating: 4.5
+              },
+              {
                 id: 2343,
                 name: "Daredevil",
                 rating: 4
@@ -47,11 +52,20 @@
     //   .then(function(json) {
     //     console.log(JSON.stringify(json, null, 4));
     //   });
+    //
+    // model
+    //   .get('genreList[0..1].titles[0]["name", "rating"]')
+    //   .then(function(json) {
+    //     console.log(JSON.stringify(json, null, 4));
+    //   });
 
     model
-      .get('genreList[0..1].titles[0]["name", "rating"]')
-      .then(function(json) {
-        console.log(JSON.stringify(json, null, 4));
+      .setValue('genreList[0].titles[0].rating', 5)
+      .then(function(value) {
+          model.get('genreList[0..1].titles[0].["name", "rating"]')
+             .then(function(json) {
+                console.log(JSON.stringify(json, null, 4));
+             });
       });
 
   </script>
