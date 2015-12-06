@@ -2,8 +2,9 @@
 <head>
   <script src="node_modules/falcor/dist/falcor.browser.js"></script>
   <script>
-    var model = {
-      genreList: [
+    var model = new falcor.Model({
+      cache: {
+        genreList: [
           {
             name: "Recently Watched",
             titles: [
@@ -25,9 +26,14 @@
             ]
           }
         ]
-      };
+      }
+    });
 
-    console.log(model.genreList[0].titles[0].name);
+    model
+      .getValue('genreList[0].titles[0].name')
+      .then(function(value) {
+        console.log(value);
+      });
   </script>
 </head>
 <body>
