@@ -222,4 +222,7 @@ Icon
 .AppleDesktop
 Network Trash Folder
 Temporary Items
+
+target/
+dependency-reduced-pom.xml
 .apdisk
