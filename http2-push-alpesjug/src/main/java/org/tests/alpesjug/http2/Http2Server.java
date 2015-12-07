@@ -20,9 +20,13 @@ import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.attribute.ExchangeAttributes;
+import io.undertow.protocols.ssl.UndertowXnioSsl;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.LearningPushHandler;
+import io.undertow.server.handlers.ResponseCodeHandler;
+import io.undertow.server.handlers.proxy.LoadBalancingProxyClient;
+import io.undertow.server.handlers.proxy.ProxyHandler;
 import io.undertow.server.handlers.resource.PathResourceManager;
 import io.undertow.server.session.InMemorySessionManager;
 import io.undertow.server.session.SessionAttachmentHandler;
@@ -30,9 +34,12 @@ import io.undertow.server.session.SessionCookieConfig;
 import io.undertow.util.AttachmentKey;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
+import org.xnio.OptionMap;
+import org.xnio.Xnio;
 
 import javax.net.ssl.*;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyStore;
@@ -48,8 +55,6 @@ public class Http2Server {
 
     private static final char[] STORE_PASSWORD = "password".toCharArray();
 
-    public static AttachmentKey<HttpServerExchange> TOTO = AttachmentKey.create(HttpServerExchange.class);
-
     public static void main(final String[] args) throws Exception {
         String version = System.getProperty("java.version");
         System.out.println("Java version " + version);
@@ -59,11 +64,8 @@ public class Http2Server {
             System.out.println("See section 9.2.2 of the HTTP2 specification for details");
             System.exit(1);
         }
-
-        String property = System.getProperty("example.directory");
-
         String bindAddress = System.getProperty("bind.address", "localhost");
-        SSLContext sslContext = createSSLContext(loadKeyStore("org/tests/alpesjug/http2/server.keystore"), loadKeyStore("org/tests/alpesjug/http2/server.truststore"));
+        SSLContext sslContext = createSSLContext(loadKeyStore("server.keystore"), loadKeyStore("server.truststore"));
         Undertow server = Undertow.builder()
                 .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
                 .setServerOption(UndertowOptions.ENABLE_SPDY, true)
@@ -79,6 +81,21 @@ public class Http2Server {
                 }), "x-undertow-transport", ExchangeAttributes.transportProtocol())), new InMemorySessionManager("test"), new SessionCookieConfig())).build();
 
         server.start();
+
+        SSLContext clientSslContext = createSSLContext(loadKeyStore("client.keystore"), loadKeyStore("client.truststore"));
+        LoadBalancingProxyClient proxy = new LoadBalancingProxyClient()
+                .addHost(new URI("https://localhost:8443"), null, new UndertowXnioSsl(Xnio.getInstance(), OptionMap.EMPTY, clientSslContext), OptionMap.create(UndertowOptions.ENABLE_HTTP2, true))
+                .setConnectionsPerThread(20);
+//
+//        Undertow reverseProxy = Undertow.builder()
+//                .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
+//                .setServerOption(UndertowOptions.ENABLE_SPDY, true)
+//                .addHttpListener(8081, bindAddress)
+//                .addHttpsListener(8444, bindAddress, sslContext)
+//                .setHandler(new ProxyHandler(proxy, 30000, ResponseCodeHandler.HANDLE_404))
+//                .build();
+//        reverseProxy.start();
+
     }
 
     private static KeyStore loadKeyStore(String name) throws Exception {
@@ -120,5 +137,4 @@ public class Http2Server {
 
         return sslContext;
     }
-
 }
